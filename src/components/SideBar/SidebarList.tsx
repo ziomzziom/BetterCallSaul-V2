@@ -1,23 +1,23 @@
-import React from 'react'
-import styled from 'styled-components'
-import sideBarItems from './sideBarItems'
-import Typography from '../shared/Typography'
-import theme from '../../theme'
+import React from 'react';
+import styled from 'styled-components';
+import Typography from '../shared/Typography';
+import theme from '../../theme';
+import sideBarItems from './sideBarItems';
 
 const SidebarList = () => (
-	<List>
-		{sideBarItems.map(item => (
-			<ListItem key={item.title}>
-				<IconWrapper>{item.icon}</IconWrapper>
-				<TitleWrapper>
-					<Typography fWeight={theme.fontWeight[400]}>
-						{item.title}
-					</Typography>
-				</TitleWrapper>
-			</ListItem>
-		))}
-	</List>
-)
+  <List>
+    {sideBarItems.map((item) => (
+      <ListItem key={item.title}>
+        <IconWrapper>{item.icon}</IconWrapper>
+        <TitleWrapper>
+          <Typography fWeight={theme.fontWeight[400]}>
+            {item.title}
+          </Typography>
+        </TitleWrapper>
+      </ListItem>
+    ))}
+  </List>
+);
 
 export const List = styled.ul`
 	width: 100%;
@@ -45,4 +45,4 @@ export const TitleWrapper = styled.div`
 	margin: auto 0 auto 2em;
 `
 
-export default SidebarList
+export default SidebarList;
