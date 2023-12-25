@@ -10,24 +10,10 @@ import JustjoinLogo from '../shared/JustjoinLogo';
 import Head from './sidebarHeading'; 
 import InitialStoreState from '../../types/InitialStoreState';
 
-const Container = styled.div`
-  min-width: 300px;
-  background: ${({ theme }) => theme.colors.primary};
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  color: rgba(0, 0, 0, 0.54);
-`;
 
 const SideBar = ({ darkMode, toggleThemeMode }: { darkMode?: boolean; toggleThemeMode: VoidFunction }) => (
   <Container>
-    
-    <Head onClickButton={() => { /* Add the onClickButton logic */ }} />
+    <Head onClickButton={() => { /* Add the logic */ }} />
     <SidebarList />
     <ToggleWrapper>
       <WbSunnyIcon />
@@ -44,12 +30,19 @@ const SideBar = ({ darkMode, toggleThemeMode }: { darkMode?: boolean; toggleThem
   </Container>
 );
 
-const JustjoinLogoWrapper = styled.div`
-  width: 120px;
-  box-sizing: content-box;
-  padding: 0.9375em 4em;
-  margin: auto;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+const Container = styled.div`
+  min-width: 300px;
+  background: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const ToggleWrapper = styled.div`
+	display: flex;
+	align-items: center;
+  justify-content: center;
+	color: rgba(0, 0, 0, 0.54);
 `;
 
 const mapStateToProps = ({ darkMode }: InitialStoreState) => ({
