@@ -1,0 +1,55 @@
+.create-order-form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.create-order-header {
+  color: #e74c3c;
+  font-size: 64px;
+  font-weight: 200;
+  height: 65px;
+  display: flex;
+  font-family: "gta_sa_font";
+}
+
+.create-order-form {
+  width: calc(100% - 60px);
+}
+
+.create-order-form-input {
+  margin-top: 10px;
+}
+
+.create-order-form-invoice {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-order-form textarea {
+  min-height: 40px;
+  width: 92%;
+  padding: 10px;
+  font-weight: bold;
+  color: rgb(127, 127, 127);
+  font-size: 17px;
+  background-color: transparent;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.create-order-form-button {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.create-order-form button {
+  margin: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}

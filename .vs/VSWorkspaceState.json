@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\Components",
+    "\\src\\Components\\Offers",
+    "\\src\\Components\\Offers\\OfferDetailsPage",
+    "\\src\\Components\\Offers\\OfferItem",
+    "\\src\\Containers",
+    "\\src\\Containers\\Header",
+    "\\src\\Containers\\Offers",
+    "\\src\\Containers\\UserAuth"
+  ],
+  "PreviewInSolutionExplorer": false
+}

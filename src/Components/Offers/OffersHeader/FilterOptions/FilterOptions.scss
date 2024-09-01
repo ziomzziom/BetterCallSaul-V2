@@ -1,0 +1,105 @@
+.filter-options {
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
+
+  .filter-header {
+    display: flex;
+    padding: 0px 8px;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 10px;
+    background-color: var(--color-offer-background-light);
+    border-bottom: 1px solid #ccc;
+
+    .filter-close-button {
+      &.dark-mode {
+        color: white;
+      }
+    }
+
+    &.dark-mode {
+      background-color: var(--color-offer-background-dark);
+      color: white;
+    }
+  }
+
+  .filter-content-spantext {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color-text-light);
+
+    &.dark-mode {
+      // Additional styles for dark mode if needed
+    }
+  }
+
+  .filter-content-button {
+    margin: 5px;
+  }
+
+  .filter-content-input {
+    border-radius: 5px;
+    color: white;
+    border: 1px solid #8f8f8f;
+  }
+
+  .filter-content-date-input-label-dark {
+    color: white;
+  }
+
+  .filter-content {
+    padding: 16px 20px;
+    height: 400px;
+    background-color: white;
+
+    & input {
+      color: #868686;
+    }
+
+    &.dark-mode {
+      background-color: var(--color-offer-background-dark);
+    }
+  }
+
+  .pricerange-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+  }
+
+  .invoice-switch {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 10px;
+
+    .invoice-switch-label {
+      margin-right: 10px;
+    }
+  }
+
+  .filter-footer {
+    background-color: var(--color-offer-background-light);
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #ccc;
+
+    &.dark-mode {
+      background-color: var(--color-offer-background-dark);
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .filter-options {
+    width: 100%;
+  }
+
+  .add-offer-content {
+    display: flex;
+    justify-content: center;
+  }
+}
