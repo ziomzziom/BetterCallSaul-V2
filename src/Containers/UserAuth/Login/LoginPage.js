@@ -28,34 +28,31 @@ const LoginPage = () => {
 
   const handleLogin = async (email, password) => {
     setLoading(true);
-
+  
     const requestBody = {
       email: email,
       password: password,
     };
-
+  
     try {
-      const response = await fetch(
-        "https://lawyerappwebapi.azurewebsites.net/Auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
-
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
       const data = await response.json();
-
+  
       if (data.token) {
         setIsSnackbarOpen(true);
         setIsError(false);
-
+  
         document.cookie = `token=${data.token}; path=/; secure; httpOnly`;
-
+  
         login(data.user);
-
+  
         setTimeout(() => {
           navigate("/");
         }, 2000);
