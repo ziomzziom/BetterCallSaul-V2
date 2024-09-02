@@ -35,13 +35,17 @@ const LoginPage = () => {
     };
   
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+      const response = await fetch(`http://localhost:3000/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
       });
+  
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
   
       const data = await response.json();
   
@@ -51,7 +55,7 @@ const LoginPage = () => {
   
         document.cookie = `token=${data.token}; path=/; secure; httpOnly`;
   
-        login(data.user);
+        login({ user: data.user, isAuthenticated: true });
   
         setTimeout(() => {
           navigate("/");
@@ -63,6 +67,7 @@ const LoginPage = () => {
     } catch (error) {
       setIsSnackbarOpen(true);
       setIsError(true);
+      console.error(error);
     } finally {
       setLoading(false);
     }
