@@ -21,13 +21,14 @@ const useFetchData = () => {
 
   const fetchData = useCallback(() => {
     setStatus("loading");
-    fetch("https://lawyerappwebapi.azurewebsites.net/api/Jobs/GetJobs")
+    fetch("http://localhost:3000/api/offers")
       .then((response) => response.json())
       .then((data) => {
-        setOffers(data.jobs);
+        setOffers(data);
         setStatus("success");
       })
       .catch((error) => {
+        console.error('Error fetching data:', error);
         setStatus("error");
         setError(error.message);
       });
@@ -105,7 +106,6 @@ const Orders = () => {
                 </Suspense>
               ) : (
                 <OffersTab
-                  offers={offers}
                   noResults={noResults}
                 />
               )}

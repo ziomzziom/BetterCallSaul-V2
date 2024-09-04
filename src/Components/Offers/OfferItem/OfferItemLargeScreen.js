@@ -15,7 +15,7 @@ const formatDateToMonthDayYear = (dateString) => {
 
 const OfferItemLargeScreen = React.memo(({ offer }) => {
   const { isDarkMode } = useDarkMode();
-  const { title, court, date, time, vatInvoice } = offer;
+  const { title, court, date, time, vatInvoice } = offer; // change court name to location!!
 
   const formatTime = (timeString) => {
     if (!timeString) {

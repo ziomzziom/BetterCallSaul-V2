@@ -10,7 +10,6 @@ import { useDarkMode } from "../DarkModeContext";
 const LeafletMap = ({ offers }) => {
   const mapRef = useRef(null);
   const markersRef = useRef({});
-  const addressMap = useRef(new Map());
   const zoomControlRef = useRef(null);
 
   const { isDarkMode } = useDarkMode();
@@ -54,7 +53,7 @@ const LeafletMap = ({ offers }) => {
 
       if (Array.isArray(offers) && offers.length > 0) {
         const defaultMarkerIcon = L.icon({
-          iconUrl: "https://upload.wikimedia.org/wikipedia/commons/8/88/Map_marker.svg",
+          iconUrl: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
           iconSize: [25, 41],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
@@ -71,37 +70,26 @@ const LeafletMap = ({ offers }) => {
         const markers = L.markerClusterGroup(clusterOptions);
 
         offers.forEach((offer) => {
-          const { id, address } = offer;
-          if (address && address.city && address.street) {
-            fetch(
-              `https://nominatim.openstreetmap.org/search?city=${address.city}&street=${address.street}&format=json`
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                if (data && data.length > 0) {
-                  const { lat, lon } = data[0];
-                  addressMap.current.set(id, { lat, lon }); // Store latitude and longitude
-  
-                  // Create marker and bind popup
-                  const marker = L.marker([lat, lon], {
-                    icon: defaultMarkerIcon,
-                  });
-                  marker.bindPopup(offer.title);
-  
-                  // Add marker to the cluster group
-                  markers.addLayer(marker);
-  
-                  // Save marker to markersRef
-                  markersRef.current[id] = marker;
-                }
-              })
-              .catch((error) => {
-                console.error("Error fetching location data:", error);
-              });
+          const { id, coordinates } = offer;
+          console.log(`Marker created for offer ${offer.id}`);
+          if (coordinates) {
+            const { latitude, longitude } = coordinates;
+            // Create marker and bind popup
+            const marker = L.marker([latitude, longitude], {
+              icon: defaultMarkerIcon,
+            });
+            marker.bindPopup(offer.title);
+
+            // Add marker to the cluster group
+            markers.addLayer(marker);
+
+            // Save marker to markersRef
+            markersRef.current[id] = marker;
           }
         });
 
         mapRef.current.addLayer(markers);
+        console.log(`Markers added to map`);
       }
     } catch (error) {
       console.error("Error initializing map:", error);
