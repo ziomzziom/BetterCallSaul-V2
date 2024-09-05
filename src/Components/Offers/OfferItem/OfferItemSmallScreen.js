@@ -24,21 +24,12 @@ const OfferItemSmallScreen = ({ offer }) => {
     return `${hours}:${minutes}`;
   };
 
-  const isNew = (offer) => {
-    const today = new Date();
-    const creationDate = new Date(offer.createdDate);
-
-    if (
-      today.getFullYear() === creationDate.getFullYear() &&
-      today.getMonth() === creationDate.getMonth() &&
-      today.getDate() === creationDate.getDate()
-    ) {
+  const isNew = () => {
+    if (offer.isNew == true) {
       return "NEW";
+    } else {
+      return `${offer.isNew}d. ago`;
     }
-
-    const timeDifference = Math.abs(today - creationDate);
-    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-    return `${daysDifference}d temu`;
   };
 
   return (
@@ -93,7 +84,7 @@ const OfferItemSmallScreen = ({ offer }) => {
               <div className="location-marker-wrapper">
                 <RoomOutlinedIcon />
               </div>
-              <span>{offer.court.city}</span>
+              <span>{offer.location.city}</span>
               {offer.vatInvoice && (
                 <div className="offer-item-invoice-icon">
                   <RequestQuoteOutlinedIcon />

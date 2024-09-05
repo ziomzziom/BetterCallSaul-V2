@@ -15,7 +15,7 @@ const formatDateToMonthDayYear = (dateString) => {
 
 const OfferItemLargeScreen = React.memo(({ offer }) => {
   const { isDarkMode } = useDarkMode();
-  const { title, court, date, time, vatInvoice } = offer; // change court name to location!!
+  const { title, location, date, time, vatInvoice } = offer;
 
   const formatTime = (timeString) => {
     if (!timeString) {
@@ -26,20 +26,11 @@ const OfferItemLargeScreen = React.memo(({ offer }) => {
   };
 
   const isNew = () => {
-    const today = new Date();
-    const creationDate = new Date(offer.createdDate);
-
-    if (
-      today.getFullYear() === creationDate.getFullYear() &&
-      today.getMonth() === creationDate.getMonth() &&
-      today.getDate() === creationDate.getDate()
-    ) {
+    if (offer.isNew == true) {
       return "NEW";
+    } else {
+      return `${offer.isNew}d. ago`;
     }
-
-    const timeDifference = Math.abs(today - creationDate);
-    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-    return `${daysDifference}d temu`;
   };
 
   return (
@@ -90,7 +81,7 @@ const OfferItemLargeScreen = React.memo(({ offer }) => {
               <div className="location-marker-wrapper">
                 <RoomOutlinedIcon fontSize="small" />
               </div>
-              <span>{court?.name}</span>
+              <span>{location?.city}</span>
             </div>
             <div className="offer-item-date-location-wrapper">
               <div className={`offer-item-date-wrapper ${isDarkMode ? "dark-mode" : ""}`}>
