@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useLayoutEffect } from "react";
+import React, { useState, useCallback, useLayoutEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useDarkMode } from "../DarkModeContext";
 import OfferItemLargeScreen from "../OfferItem/OfferItemLargeScreen";
@@ -9,35 +9,19 @@ import { Skeleton } from "@mui/material";
 import "./OffersTab.scss";
 
 const OffersTab = ({ offers, noResults }) => {
-  const [localOffers, setLocalOffers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
   const { isDarkMode } = useDarkMode();
   const isSmallScreen = useMediaQuery({ query: "(max-width: 960px)" });
   const [isMuiBoxMapVisible, setMuiBoxMapVisible] = useState(true);
 
-  const fetchOffers = useCallback(() => {
-    const statusFilter = activeTab === "available" ? 1 : null;
-
-    fetch(`https://lawyerappwebapi.azurewebsites.net/api/Jobs/GetJobs?pagesize=10&status=${statusFilter}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setLocalOffers(data.jobs);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("Error fetching data");
-        setLoading(false);
-      });
-  }, [activeTab]);
-
-  useEffect(() => {
-    setLocalOffers([]);
-    setLoading(true);
-    fetchOffers();
-  }, [fetchOffers]);
+  const filteredOffers = offers.filter((offer) => {
+    if (activeTab === "available") {
+      return offer.status === 1;
+    }
+    return true;
+  });
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -59,7 +43,6 @@ const OffersTab = ({ offers, noResults }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [setMuiBoxMapVisible]);
-  
 
   return (
     <div className="OffersTab">
@@ -104,7 +87,7 @@ const OffersTab = ({ offers, noResults }) => {
                 </div>
               </div>
             ) : (
-              localOffers.map((offer) => (
+              filteredOffers.map((offer) => (
                 isSmallScreen ? (
                   <OfferItemSmallScreen
                     key={offer.id}

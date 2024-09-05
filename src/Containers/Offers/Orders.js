@@ -51,7 +51,7 @@ const Orders = () => {
   const [isMuiBoxMapVisible, setIsMuiBoxMapVisible] = useState(true);
 
   const handleSearch = (searchQuery, provinceId) => {
-    const apiUrl = `https://lawyerappwebapi.azurewebsites.net/api/Jobs/GetJobs?Search=${searchQuery}&ProvinceId=${provinceId}`;
+    const apiUrl = `http://localhost:3000/api/offers/search?searchQuery=${searchQuery}&province=${provinceId}`;
   
     fetch(apiUrl)
       .then((response) => response.json())
@@ -106,6 +106,7 @@ const Orders = () => {
                 </Suspense>
               ) : (
                 <OffersTab
+                  offers={offers}
                   noResults={noResults}
                 />
               )}

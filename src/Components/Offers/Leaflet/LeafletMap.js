@@ -72,7 +72,6 @@ const LeafletMap = ({ offers }) => {
 
         offers.forEach((offer) => {
           const { id, coordinates } = offer;
-          console.log(`Marker created for offer ${offer.id}`);
           if (coordinates) {
             const { latitude, longitude } = coordinates;
             // Create marker and bind popup
@@ -90,7 +89,6 @@ const LeafletMap = ({ offers }) => {
         });
 
         mapRef.current.addLayer(markers);
-        console.log(`Markers added to map`);
       }
     } catch (error) {
       console.error("Error initializing map:", error);
