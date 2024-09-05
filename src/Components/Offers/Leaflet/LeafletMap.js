@@ -5,6 +5,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import "./LeafletMap.scss";
+import marker from "../../Static/marker.png";
 import { useDarkMode } from "../DarkModeContext";
 
 const LeafletMap = ({ offers }) => {
@@ -53,9 +54,9 @@ const LeafletMap = ({ offers }) => {
 
       if (Array.isArray(offers) && offers.length > 0) {
         const defaultMarkerIcon = L.icon({
-          iconUrl: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
+          iconUrl: marker,
+          iconSize: [60, 60],
+          iconAnchor: [30, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
           shadowSize: [41, 41],
