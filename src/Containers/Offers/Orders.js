@@ -87,7 +87,7 @@ const Orders = () => {
   return (
     <>
       <Header activeTab={0} isSmallScreen={isSmallScreen} />
-      <OffersHeader onSearch={handleSearch} offers={offers} />
+      <OffersHeader onSearch={handleSearch} setOffers={setOffers} />
       <div className={`container ${isDarkMode ? "dark-mode" : ""}`} id="yourContainerId">
         {isMuiBoxMapVisible && (
           <MuiBoxMap onClick={handleMapButtonClick} isVisible={true} />
