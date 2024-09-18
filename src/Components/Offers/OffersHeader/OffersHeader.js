@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDarkMode } from "../DarkModeContext";
 import "./OffersHeader.scss";
 import { Button, IconButton, TextField, Autocomplete } from "@mui/material";
@@ -7,7 +7,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import FilterOptions from "./FilterOptions/FilterOptions";
 import { provinces } from "./provinces";
 
-const OffersHeader = ({ onSearch, setOffers }) => {
+const OffersHeader = ({ onSearch }) => {
   const [provinceId, setProvinceId] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOptionsOpen, setIsFilterOptionsOpen] = useState(false);
@@ -18,42 +18,16 @@ const OffersHeader = ({ onSearch, setOffers }) => {
   const searchQueryRef = React.createRef(); 
   const provinceIdRef = React.createRef();
 
-  const handleSearch = () => {
-    const province = provinces.find((province) => province.id === provinceId);
-    const provinceName = province ? province.name : "";
-
-    const apiUrl = `http://localhost:3000/api/offers/search?query=${searchQuery}&province=${provinceName}`;
-    
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        } else {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        if (data.jobs) {
-          const filteredOffers = data.jobs.filter((offer) => {
-            return offer.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                   offer.description.toLowerCase().includes(searchQuery.toLowerCase());
-          });
-          onSearch(filteredOffers);
-        } else {
-          console.error("No jobs found in API response");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-
   const handleOpenFilterOptions = () => {
     setIsFilterOptionsOpen(true); 
   };
 
   const handleCloseFilterOptions = () => {
     setIsFilterOptionsOpen(false); 
+  };
+
+  const handleSearch = () => {
+    onSearch(searchQuery, provinceId);
   };
 
   return (

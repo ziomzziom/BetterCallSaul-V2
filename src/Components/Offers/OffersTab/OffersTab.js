@@ -16,12 +16,14 @@ const OffersTab = ({ offers, noResults }) => {
   const isSmallScreen = useMediaQuery({ query: "(max-width: 960px)" });
   const [isMuiBoxMapVisible, setMuiBoxMapVisible] = useState(true);
 
-  const filteredOffers = offers.filter((offer) => {
-    if (activeTab === "available") {
-      return offer.status === 1;
-    }
-    return true;
-  });
+  const filteredOffers = Array.isArray(offers)
+    ? offers.filter((offer) => {
+        if (activeTab === "available") {
+          return offer.status === 1;
+        }
+        return true;
+      })
+    : [];
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -101,13 +103,16 @@ const OffersTab = ({ offers, noResults }) => {
                 )
               ))
             )}
-            <div className={`offer-list-end ${isDarkMode ? "dark-mode" : ""}`}>
-              <span className={`offer-list-end-text ${isDarkMode ? "dark-mode" : ""}`}>Oops! <br/>
-                It seems we've run out of offers.<br/>
-                Check back later for more opportunities!
-              </span>
-              <img src={outofoffers} alt="out of offers" style={{ height: '150px' }} />
-            </div>
+            {!noResults && (
+              <div className={`offer-list-end ${isDarkMode ? "dark-mode" : ""}`}>
+                <span className={`offer-list-end-text ${isDarkMode ? "dark-mode" : ""}`}>
+                  Oops! <br/>
+                  It seems we've run out of offers.<br/>
+                  Check back later for more opportunities!
+                </span>
+                <img src={outofoffers} alt="out of offers" style={{ height: '150px' }} />
+              </div>
+            )}
           </div>
         )}
       </div>

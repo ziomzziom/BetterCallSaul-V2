@@ -51,20 +51,32 @@ const Orders = () => {
   const [isMuiBoxMapVisible, setIsMuiBoxMapVisible] = useState(true);
 
   const handleSearch = (searchQuery, provinceId) => {
-    const apiUrl = `http://localhost:3000/api/offers/search?searchQuery=${searchQuery}&province=${provinceId}`;
+    if (!searchQuery || !provinceId) {
+      setNoResults(true);
+      setOffers([]);
+      return;
+    }
   
+    const searchQueryStr = Array.isArray(searchQuery) ? searchQuery.join(",") : searchQuery;
+    const apiUrl = `http://localhost:3000/api/offers/search?query=${searchQueryStr}&province=${provinceId}`;
+    
     fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.jobs.length === 0) {
-          setNoResults(true); 
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
         } else {
-          setNoResults(false);
+          throw new Error(response.statusText);
         }
-        setOffers(data.jobs);
+      })
+      .then((data) => {
+        setOffers(data);
+        setNoResults(data.length === 0);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        // Even if an error occurs, the data might still be returned, so set noResults based on the data
+        setNoResults(false);
+        // Handle the error generically
+        alert('An error occurred while fetching data');
       });
   };
 
