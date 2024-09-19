@@ -42,7 +42,7 @@ const useFetchData = () => {
 };
 
 const Orders = () => {
-  const { offers, setOffers, status, error } = useFetchData();
+  const { offers, setOffers, status, error, fetchData } = useFetchData();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [showMap, setShowMap] = useState(false);
@@ -50,16 +50,23 @@ const Orders = () => {
   const [noResults, setNoResults] = useState(false);
   const [isMuiBoxMapVisible, setIsMuiBoxMapVisible] = useState(true);
 
-  const handleSearch = (searchQuery, provinceId) => {
-    if (!searchQuery || !provinceId) {
+  const handleSearch = (searchQuery, provinceName) => {
+    if (!searchQuery && !provinceName) {
       setNoResults(true);
       setOffers([]);
       return;
     }
   
-    const searchQueryStr = Array.isArray(searchQuery) ? searchQuery.join(",") : searchQuery;
-    const apiUrl = `http://localhost:3000/api/offers/search?query=${searchQueryStr}&province=${provinceId}`;
-    
+    let apiUrl = `http://localhost:3000/api/offers/search`;
+  
+    if (provinceName) {
+      apiUrl += `?province=${provinceName}`;
+    }
+  
+    if (searchQuery) {
+      apiUrl += `${provinceName ? '&' : '?'}query=${searchQuery}`;
+    }
+  
     fetch(apiUrl)
       .then((response) => {
         if (response.ok) {
@@ -73,9 +80,7 @@ const Orders = () => {
         setNoResults(data.length === 0);
       })
       .catch((error) => {
-        // Even if an error occurs, the data might still be returned, so set noResults based on the data
-        setNoResults(false);
-        // Handle the error generically
+        console.error(error);
         alert('An error occurred while fetching data');
       });
   };
@@ -99,11 +104,9 @@ const Orders = () => {
   return (
     <>
       <Header activeTab={0} isSmallScreen={isSmallScreen} />
-      <OffersHeader onSearch={handleSearch} setOffers={setOffers} />
+      <OffersHeader onSearch={handleSearch} fetchData={fetchData} />
       <div className={`container ${isDarkMode ? "dark-mode" : ""}`} id="yourContainerId">
-        {isMuiBoxMapVisible && (
-          <MuiBoxMap onClick={handleMapButtonClick} isVisible={true} />
-        )}
+        <MuiBoxMap onClick={handleMapButtonClick} isVisible={true} />
 
         {status === "loading" ? (
           <div className={`loading-container ${isDarkMode ? "dark-mode" : ""}`}>

@@ -4,13 +4,15 @@ import "./OffersHeader.scss";
 import { Button, IconButton, TextField, Autocomplete } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
+import CloseIcon from "@mui/icons-material/Close";
 import FilterOptions from "./FilterOptions/FilterOptions";
 import { provinces } from "./provinces";
 
-const OffersHeader = ({ onSearch }) => {
+const OffersHeader = ({ onSearch, fetchData }) => {
   const [provinceId, setProvinceId] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOptionsOpen, setIsFilterOptionsOpen] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const isSmallScreen = window.innerWidth <= 1500;
   const { isDarkMode } = useDarkMode();
@@ -27,8 +29,17 @@ const OffersHeader = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    onSearch(searchQuery, provinceId);
+    onSearch(searchQuery, provinces.find((province) => province.id === provinceId)?.name);
+    setHasSearched(true); // Set hasSearched to true after searching
   };
+  
+  const handleCancelSearch = () => {
+    setSearchQuery("");
+    setProvinceId("");
+    fetchData(); // Call fetchData to retrieve all offers
+    setHasSearched(false); // Reset hasSearched to false
+  };
+  
 
   return (
     <div className={`offers-header ${isDarkMode ? "dark-mode" : ""}`}>
@@ -81,11 +92,15 @@ const OffersHeader = ({ onSearch }) => {
             )}
           />
             <Button
-              onClick={handleSearch}
+              onClick={hasSearched ? handleCancelSearch : handleSearch}
               variant="outlined"
               className={`search-button ${isDarkMode ? "dark-mode" : ""}`}
             >
-              <SearchIcon />
+              {hasSearched ? (
+                <CloseIcon />
+              ) : (
+                <SearchIcon />
+              )}
             </Button>
           </div>
         <IconButton
