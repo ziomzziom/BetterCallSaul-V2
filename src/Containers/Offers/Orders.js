@@ -48,7 +48,6 @@ const Orders = () => {
   const [showMap, setShowMap] = useState(false);
   const { isDarkMode } = useDarkMode();
   const [noResults, setNoResults] = useState(false);
-  const [isMuiBoxMapVisible, setIsMuiBoxMapVisible] = useState(true);
 
   const handleSearch = (searchQuery, provinceName) => {
     if (!searchQuery && !provinceName) {
@@ -71,17 +70,32 @@ const Orders = () => {
       .then((response) => {
         if (response.ok) {
           return response.json();
+        } else if (response.status === 404) {
+          // 404 error, set noResults to true
+          setNoResults(true);
+          setOffers([]);
+          return;
         } else {
           throw new Error(response.statusText);
         }
       })
       .then((data) => {
-        setOffers(data);
-        setNoResults(data.length === 0);
+        if (Array.isArray(data)) {
+          setOffers(data);
+          setNoResults(data.length === 0);
+        } else {
+          setNoResults(true); // API returned an error message
+          setOffers([]);
+        }
       })
       .catch((error) => {
         console.error(error);
-        alert('An error occurred while fetching data');
+        // Only show the alert if it's not a 404 error
+        if (error.status !== 404) {
+          alert('An error occurred while fetching data');
+        } else {
+          // Ignore 404 error, do nothing
+        }
       });
   };
 
@@ -93,18 +107,11 @@ const Orders = () => {
     setShowMap(false);
   };
 
-  useEffect(() => {
-    // Scroll to the end of the container
-    const container = document.getElementById("yourContainerId"); // Replace with the actual container id
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [offers]);
-
+  
   return (
     <>
       <Header activeTab={0} isSmallScreen={isSmallScreen} />
-      <OffersHeader onSearch={handleSearch} fetchData={fetchData} />
+      <OffersHeader onSearch={handleSearch} fetchData={fetchData} setNoResults={setNoResults} />
       <div className={`container ${isDarkMode ? "dark-mode" : ""}`} id="yourContainerId">
         <MuiBoxMap onClick={handleMapButtonClick} isVisible={true} />
 

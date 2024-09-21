@@ -8,11 +8,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import FilterOptions from "./FilterOptions/FilterOptions";
 import { provinces } from "./provinces";
 
-const OffersHeader = ({ onSearch, fetchData }) => {
+const OffersHeader = ({ onSearch, fetchData, setNoResults }) => {
   const [provinceId, setProvinceId] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOptionsOpen, setIsFilterOptionsOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [searchButtonHint, setSearchButtonHint] = useState('');
 
   const isSmallScreen = window.innerWidth <= 1500;
   const { isDarkMode } = useDarkMode();
@@ -29,17 +30,22 @@ const OffersHeader = ({ onSearch, fetchData }) => {
   };
 
   const handleSearch = () => {
-    onSearch(searchQuery, provinces.find((province) => province.id === provinceId)?.name);
+    if (!searchQuery && !provinceId) {
+      setSearchButtonHint("Please enter a search query or select a province to search.");
+    } else {
+      onSearch(searchQuery, provinces.find((province) => province.id === provinceId)?.name);
+      setSearchButtonHint(""); // Clear hint message
+    }
     setHasSearched(true); // Set hasSearched to true after searching
   };
   
   const handleCancelSearch = () => {
     setSearchQuery("");
     setProvinceId("");
-    fetchData(); // Call fetchData to retrieve all offers
+    setNoResults(false); // Reset noResults to false
+    fetchData({}); // Call fetchData to retrieve all offers
     setHasSearched(false); // Reset hasSearched to false
   };
-  
 
   return (
     <div className={`offers-header ${isDarkMode ? "dark-mode" : ""}`}>
@@ -92,16 +98,18 @@ const OffersHeader = ({ onSearch, fetchData }) => {
             )}
           />
             <Button
-              onClick={hasSearched ? handleCancelSearch : handleSearch}
-              variant="outlined"
-              className={`search-button ${isDarkMode ? "dark-mode" : ""}`}
-            >
-              {hasSearched ? (
-                <CloseIcon />
-              ) : (
-                <SearchIcon />
-              )}
-            </Button>
+                onClick={hasSearched ? handleCancelSearch : handleSearch}
+                variant="outlined"
+                className={`search-button ${isDarkMode ? "dark-mode" : ""}`}
+                title={searchButtonHint}
+                disabled={!searchQuery && !provinceId}
+              >
+                {hasSearched ? (
+                  <CloseIcon />
+                ) : (
+                  <SearchIcon />
+                )}
+              </Button>
           </div>
         <IconButton
           onClick={handleOpenFilterOptions}
