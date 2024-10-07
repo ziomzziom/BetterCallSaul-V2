@@ -41,7 +41,7 @@ const FilterOptions = ({ onClose, isSmallScreen, isDarkMode, open }) => {
       open={open}
       onClose={onClose}
       fullScreen={isSmallScreen}
-      className={"filter-options"}
+      className={`filter-options ${isSmallScreen ? 'full-screen' : ''}`}
       PaperProps={{
         style: {
           borderRadius: 20,
@@ -50,7 +50,7 @@ const FilterOptions = ({ onClose, isSmallScreen, isDarkMode, open }) => {
       }}
     >
         <div className={`filter-header ${isDarkMode ? "dark-mode" : ""}`}>
-          <h2>Filtrowanie</h2>
+          <h2>Filters</h2>
           <IconButton onClick={onClose} className={`filter-close-button ${isDarkMode ? "dark-mode" : ""}`}>
             <CloseIcon />
           </IconButton>

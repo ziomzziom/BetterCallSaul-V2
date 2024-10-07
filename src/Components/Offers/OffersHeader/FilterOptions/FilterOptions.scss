@@ -1,6 +1,11 @@
 .filter-options {
   box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
 
+  &.full-screen {
+    height: calc(100vh - 60px);
+    margin-top: auto;
+  }
+
   .filter-header {
     display: flex;
     padding: 0px 8px;
@@ -13,13 +18,13 @@
 
     .filter-close-button {
       &.dark-mode {
-        color: white;
+        color: #cacccc;
       }
     }
 
     &.dark-mode {
       background-color: var(--color-offer-background-dark);
-      color: white;
+      color: #cacccc;
     }
   }
 
@@ -96,10 +101,5 @@
 @media screen and (max-width: 600px) {
   .filter-options {
     width: 100%;
-  }
-
-  .add-offer-content {
-    display: flex;
-    justify-content: center;
   }
 }
