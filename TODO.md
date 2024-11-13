@@ -16,3 +16,5 @@
   - **Line 12:** 'setLoading' is assigned a value but never used (no-unused-vars)
   - **Line 13:** 'setError' is assigned a value but never used (no-unused-vars)
   - **Line 17:** 'isMuiBoxMapVisible' is assigned a value but never used (no-unused-vars)
+
+## Fix "failed to fetch"

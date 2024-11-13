@@ -76,7 +76,7 @@ const Orders = () => {
           setOffers([]);
           return;
         } else {
-          throw new Error(response.statusText);
+          throw new Error(response.statusText); // Fix to do not show error message instead show a custom message
         }
       })
       .then((data) => {
